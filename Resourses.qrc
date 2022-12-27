@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/assets">
+        <file>no_image.jpg</file>
+        <file>white.jpg</file>
+    </qresource>
+</RCC>

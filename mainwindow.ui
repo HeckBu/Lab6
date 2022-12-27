@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>731</width>
+    <height>592</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="previous_img_btn">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>147</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Отмена</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="color_channels">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>20</y>
+      <width>151</width>
+      <height>122</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Цветовые каналы</string>
+    </property>
+    <widget class="QRadioButton" name="red">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>31</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Красный</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="green">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>54</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Зеленый</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="blue">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>77</y>
+       <width>81</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Синий</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="primitives">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>190</y>
+      <width>151</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Примитив</string>
+    </property>
+    <widget class="QSplitter" name="splitter">
+     <property name="geometry">
+      <rect>
+       <x>21</x>
+       <y>21</y>
+       <width>121</width>
+       <height>126</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QRadioButton" name="rectangle">
+      <property name="text">
+       <string>Прямоугольник</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="cross">
+      <property name="text">
+       <string>Крест</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="disk">
+      <property name="text">
+       <string>Диск</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="ring">
+      <property name="text">
+       <string>Кольцо</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="rhomb">
+      <property name="text">
+       <string>Ромб</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>190</y>
+      <width>161</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Выбранный примитив</string>
+    </property>
+    <widget class="QLabel" name="primitive_image">
+     <property name="geometry">
+      <rect>
+       <x>35</x>
+       <y>50</y>
+       <width>90</width>
+       <height>90</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>20</y>
+      <width>330</width>
+      <height>240</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Загруженное изображение</string>
+    </property>
+    <widget class="QLabel" name="loaded_image">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>290</width>
+       <height>190</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>280</y>
+      <width>330</width>
+      <height>240</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Изменяемое изображение</string>
+    </property>
+    <widget class="QLabel" name="changeable_image">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>290</width>
+       <height>190</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QSplitter" name="splitter_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>161</width>
+      <height>108</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <widget class="QPushButton" name="load_img_btn">
+     <property name="text">
+      <string>Загрузить изображение</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="choose_img_btn">
+     <property name="text">
+      <string>Выбрать изображение</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="grayscale_btn">
+     <property name="text">
+      <string>Перевести в grayscale</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="binarization_btn">
+     <property name="text">
+      <string>Бинаризация</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QSplitter" name="splitter_3">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>410</y>
+      <width>151</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <widget class="QPushButton" name="erosion">
+     <property name="text">
+      <string>Эрозия</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="opening">
+     <property name="text">
+      <string>Размыкание</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="border_selection">
+     <property name="text">
+      <string>Выделение границ</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QSplitter" name="splitter_4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>410</y>
+      <width>151</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+    <widget class="QPushButton" name="dilatation">
+     <property name="text">
+      <string>Дилатация</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="closure">
+     <property name="text">
+      <string>Замыкание</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="conditional_buildup">
+     <property name="text">
+      <string>Условное наращивание</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>21</x>
+      <y>370</y>
+      <width>321</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="lbl_primitive_size">
+       <property name="text">
+        <string>Размер примитива</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="primitive_size">
+       <property name="text">
+        <string>3</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="rect_primitive_size_2"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="lbl_pix">
+       <property name="text">
+        <string>pix</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="apply_primitive_size">
+       <property name="text">
+        <string>Применить</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>731</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
