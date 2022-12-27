@@ -47,6 +47,7 @@ private:
   void set_image(QImage &img, QLabel *area);
   void full_process_img(const std::string& color);
 
+  // Отображение и получение данных примитива
   QImage image_fitting(QImage &image, int image_size);
   QImage image_fitting(QImage &image, int width, int height);
   void get_primitive_values();
