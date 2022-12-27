@@ -383,8 +383,37 @@ void MainWindow::on_conditional_buildup_clicked() {
 }
 
 // дилатация
-void MainWindow::on_dilatation_clicked()
-{
+void MainWindow::on_dilatation_clicked() {
+  QImage image = capture_image(ui->changeable_image->pixmap());
+  // если был изменен размер примитива
+  on_apply_primitive_size_clicked();
+
+  // для прямоугольника
+  if (ui->rectangle->isChecked()) {
+    // вычисление полуширины примитива
+    int half_width =  static_cast<int>(floor(this->primitive_size));
+    int half_height =  static_cast<int>(floor(this->rect_primitive_size_2));
+
+    for (int i = floor(this->primitive_size); i < image.width(); ++i) {
+      for (int j = 0; j < image.height(); ++j) {
+
+      }
+    }
+  // для симметричных примитивов
+  } else {
+    // вычисление полуширины примитива
+    int half_width = static_cast<int>(floor(this->primitive_size));
+    int half_height = half_width;
+
+
+
+    for (int i = 0; i < image.width() - this->primitive_size + 1; ++i) {
+      for (int j = 0; j < image.height() - this->primitive_size + 1; ++j) {
+
+      }
+    }
+  }
+
 
 }
 

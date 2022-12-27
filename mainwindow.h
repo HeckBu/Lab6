@@ -30,19 +30,12 @@ private slots:
   void on_rectangle_clicked();
   void on_rhomb_clicked();
   void on_ring_clicked();
-
   void on_apply_primitive_size_clicked();
-
   void on_border_selection_clicked();
-
   void on_erosion_clicked();
-
   void on_opening_clicked();
-
   void on_closure_clicked();
-
   void on_conditional_buildup_clicked();
-
   void on_dilatation_clicked();
 
 private:
