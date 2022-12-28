@@ -12,6 +12,11 @@
 #include <vector>
 #include <cmath>
 
+struct Mask {
+  int x;
+  int y;
+};
+
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
@@ -360,9 +365,9 @@ void MainWindow::on_erosion_clicked() {
   QImage image = capture_image(ui->changeable_image->pixmap());
   // если был изменен размер примитива пересчитываем его
   on_apply_primitive_size_clicked();
-  int half_width, half_height, width, height;
 
-  // вычисление полуширины примитива
+  // вычисление [полуширины, ширины, полувысоты, высоты] примитива
+  int half_width, half_height, width, height;
   if (ui->rectangle->isChecked()) {
     half_width =  static_cast<int>(floor(this->primitive_size/2));
     width = this->primitive_size;
@@ -376,7 +381,21 @@ void MainWindow::on_erosion_clicked() {
     height = width;
   }
 
-  // изображение для записи
+  std::vector<Mask> mask;
+  for (int i = 0; i < width; ++i) {
+    for (int j = 0; j < height; ++j) {
+      if (this->primitive.pixelColor(i, j) == QColor(0,0,0)) {
+        mask.push_back({i-half_width, j-half_height});
+      }
+    }
+  }
+
+  // для отладки
+//  for (auto [x,y] : mask) {
+//    qDebug() << "x: " << x << "y: " << y << '\n';
+//  }
+
+  // создаем и обнуляем изображение для записи
   QImage erosion_image(image.width() - 1,
                           image.height() - 1,
                           QImage::Format_RGB32);
@@ -387,25 +406,31 @@ void MainWindow::on_erosion_clicked() {
     }
   }
 
-  for (int i = half_width; i < width - 1 - half_width; ++i) {
-    for (int j = half_height; j < height - 1 - half_height; ++j) {
-      int flag = 0;
+
+  for (int i = half_width; i < image.width() - 1 - half_width; ++i) {
+    for (int j = half_height; j < image.height() - 1 - half_height; ++j) {
+      bool flag = false;
+
       for (int x = 0; x < width - 1; ++x) {
         for (int y = 0; y < height - 1; ++y) {
-          if (this->primitive.pixel(x, y) > image.pixel(i+x-half_width, j+y-half_height)) {
-            flag = 1;
+          if (this->primitive.pixel(x, y) >
+              image.pixel(i+x-half_width, j+y-half_height)) {
+            flag = true;
+            x = width;
             break;
           }
         }
       }
-      if (flag != 1) {
-        erosion_image.pixel(i, j);
-        erosion_image.setPixelColor(i,j, QColor(255,255,255));
+      if (flag) {
+        for (auto [m_x, m_y] : mask) {
+          erosion_image.pixel(i+m_x, j+m_y);
+          erosion_image.setPixelColor(i+m_x,j+m_y, QColor(255,255,255));
+        }
       }
     }
   }
 
-//  auto result = image_fitting(erosion_image, image.width());
+
   this->previous_state.push_back(erosion_image);
   set_image(erosion_image, ui->changeable_image);
 }
@@ -427,51 +452,6 @@ void MainWindow::on_conditional_buildup_clicked() {
 
 // дилатация
 void MainWindow::on_dilatation_clicked() {
-  // захватываем изображение
-  QImage image = capture_image(ui->changeable_image->pixmap());
-  // если был изменен размер примитива пересчитываем его
-  on_apply_primitive_size_clicked();
-  int half_width, half_height, width, height;
 
-  // вычисление полуширины примитива
-  if (ui->rectangle->isChecked()) {
-    half_width =  static_cast<int>(floor(this->primitive_size/2));
-    width = this->primitive_size;
-    half_height =  static_cast<int>(floor(this->rect_primitive_size_2/2));
-    height = this->rect_primitive_size_2;
-    // для симметричных примитивов
-  } else {
-    half_width = static_cast<int>(floor(this->primitive_size/2));
-    width = this->primitive_size;
-    half_height = half_width;
-    height = width;
-  }
-
-  // изображение для записи
-  QImage dilatation_image(image.width() - 1,
-                          image.height() - 1,
-                          QImage::Format_RGB32);
-
-  // процесс дилатации
-  for (int i = half_width; i < dilatation_image.width() - 1 - half_width; ++i) {
-    for (int j = half_height; j < dilatation_image.height() - 1 - half_height; ++j) {
-//      bool flag = 0;
-      for (int x = 0; x < width; ++x) {
-        for (int y = 0; y < height; ++y) {
-
-        }
-      }
-      if (image.pixelColor(i,j) == QColor(255,255,255)) {
-
-      }
-    }
-  }
-//  for (auto [x, y] : res) {
-//    qDebug() << "x: " << x << "y: " << y << '\n';
-//  }
-
-  auto result = image_fitting(dilatation_image, image.width());
-  this->previous_state.push_back(result);
-  set_image(result, ui->changeable_image);
 }
 
