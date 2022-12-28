@@ -11,7 +11,8 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    binarization.cpp
+    binarization.cpp \
+    mask.cpp
 
 HEADERS += \
     mainwindow.h

@@ -3,6 +3,7 @@
 
 #include "qlabel.h"
 #include <QMainWindow>
+#include "mask.cpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -51,6 +52,11 @@ private:
   QImage image_fitting(QImage &image, int image_size);
   QImage image_fitting(QImage &image, int width, int height);
   void get_primitive_values();
+  void get_primitive_sizes(int &half_width, int &half_height,
+                           int &width, int &height);
+
+  QImage create_clear_image(int width, int height);
+  std::vector<Mask> create_mask();
 
   int primitive_size, rect_primitive_size_2; // размер примитива (2ой для прямоугольника)
   QImage primitive; // примитив
