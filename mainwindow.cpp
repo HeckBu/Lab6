@@ -409,7 +409,7 @@ void MainWindow::on_border_selection_clicked() {
   // создаем и обнуляем изображение для записи
   auto erosion_image = create_clear_image(image.width(), image.height());
   // создаем маску (вектор значащих координат маски)
-  std::vector<Mask> mask = {{0,1}, {1,0}, {1,1}, {1,2}, {2,1}};
+  std::vector<Mask> mask{{0,1}, {1,0}, {1,1}, {1,2}, {2,1}};
 
   for (int i = half_width; i < image.width() - half_width-1; ++i) {
     for (int j = half_height; j < image.height() - half_height-1; ++j) {
@@ -496,12 +496,64 @@ void MainWindow::on_conditional_buildup_clicked() {
     int half_width, half_height, width, height;
     get_primitive_sizes(half_width, half_height, width, height);
     // создаем и обнуляем изображение для записи
-    auto escalating_image = create_clear_image(image.width(), image.height());
+    auto erosion_image = create_clear_image(image.width(), image.height());
+    for (int i = half_width; i < image.width() - half_width-1; ++i) {
+      for (int j = half_height; j < image.height() - half_height-1; ++j) {
+        if(comparison(image,half_width,half_height,width,height, i, j,'e') > 0)
+          erosion_image.setPixelColor(i,j, QColor(0,0,0));
+      }
+    }
 
+    //выбор крестообразного примитива
+    QColor rgb;
+    int middle_pix = 1; // центр. линия
+    for (int i = 0; i < 3; ++i) {
+      for (int j = 0; j < 3; ++j) {
+        if (i == middle_pix || j == middle_pix) {
+          rgb.setRgb(255,255,255); // белый
+        } else {
+          rgb.setRgb(0,0,0); // черный
+        }
+        this->primitive.setPixelColor(i,j,rgb);
+      }
+    }
+    this->primitive_size = 3;
 
+    QImage erosion_image2(image.width(),image.height(),QImage::Format_RGB32);
+    for(int z = 0; z < 2; ++z) {
+      //наращивание с крестом
+      for (int i = 0; i < erosion_image2.width(); ++i) {
+        for (int j = 0; j < erosion_image2.height(); ++j) {
+          erosion_image2.setPixelColor(i,j, QColor(0,0,0));
+        }
+      }
 
-    this->previous_state.push_back(escalating_image);
-    set_image(escalating_image, ui->changeable_image);
+      for (int i = half_width; i < image.width() - half_width-1; ++i) {
+        for (int j = half_height; j < image.height() - half_height-1; ++j) {
+          if(comparison(erosion_image,1,1,3,3, i, j,'d')>0)
+            erosion_image2.setPixelColor(i,j, QColor(255,255,255));
+        }
+      }
+
+      QColor rgb_im_old, rgb_im_new;
+      //сравнение с начальным
+      for (int i = 0; i < image.width(); ++i) {
+        for (int j = 0; j < image.height(); ++j) {
+          rgb_im_old = image.pixel(i, j);
+          rgb_im_new = erosion_image2.pixel(i, j);
+          if(rgb_im_old.red()<rgb_im_new.red()){
+            erosion_image2.setPixelColor(i,j, QColor(0,0,0));
+          }
+        }
+      }
+      erosion_image = erosion_image2;
+    }
+
+    // если был изменен размер примитива пересчитываем его
+    on_apply_primitive_size_clicked();
+
+    this->previous_state.push_back(erosion_image2);
+    set_image(erosion_image2, ui->changeable_image);
   }
 }
 
@@ -544,3 +596,34 @@ void MainWindow::on_dilatation_clicked() {
   }
 }
 
+int MainWindow::comparison(QImage image,int half_width,  int half_height, int width, int height, int i, int j, char c) {
+  QColor rgb_image, rgb_primitiv;
+  int count_dilatation = 0;
+  int count_erosion = 0;
+
+  for (int x = 0; x < width; ++x) {
+    for (int y = 0; y < height; ++y) {
+      rgb_image = image.pixel(i+x-half_width, j+y-half_height);
+      rgb_primitiv = this->primitive.pixel(x, y);
+
+      //дилатация
+      if(rgb_image.red() == 255 && rgb_primitiv.red() == rgb_image.red())
+        count_dilatation++;
+
+      if(rgb_image.red()==0 && rgb_primitiv.red()==255)
+        count_erosion++;
+    }
+  }
+
+  switch (c) {
+  case 'd':
+    return count_dilatation;
+    break;
+  case 'e':
+    return count_erosion;
+    break;
+  default:
+    return 0;
+  }
+
+}

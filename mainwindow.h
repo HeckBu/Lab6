@@ -57,6 +57,7 @@ private:
 
   QImage create_clear_image(int width, int height);
   std::vector<Mask> create_mask();
+  int comparison(QImage image, int half_width,  int half_height, int width, int height, int i, int j, char c);
 
   int primitive_size, rect_primitive_size_2; // размер примитива (2ой для прямоугольника)
   QImage primitive; // примитив
